@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import UserCard from './Components/UserCard'
 
 class App extends React.Component {
   constructor (){
@@ -20,7 +21,7 @@ class App extends React.Component {
       }
     )
     .then(
-      getUser => console.log('getUser', getUser)
+      getUser => this.setState({users: getUser})
     )
     .catch(
       err => console.log('err', err)
@@ -33,10 +34,11 @@ class App extends React.Component {
       return (
           <div>
             <h1>Welcome to GitHub UserCard App created by {this.state.name}!</h1>
-            {this.state.users.map( user => {
+            <UserCard data={this.state.users}/>
+            {/* {this.state.users.map( user => {
               return <div>'user'</div>
             }
-            )}
+            )} */}
             
           </div>
       )
