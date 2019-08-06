@@ -1,19 +1,29 @@
 import React from 'react';
 import './App.css';
 import UserCard from './Components/UserCard'
+import FollowersCard from './Components/FollowersCard'
+
+const FollowersData = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
 
 class App extends React.Component {
   constructor (){
       super();
       this.state = {
         name: 'Hong',
-        users: []
+        user: [],
+        followers: FollowersData,
+        eachFollower: []
       }
 
 
   }
 
-  fetchUsers = () => {
+  componentDidMount() {
+    this.fetchUser()
+    this.fetchFollowers()
+  }
+  
+  fetchUser = () => {
     fetch(`https://api.github.com/users/jessiehongtran`)
     .then(
       response => {
@@ -21,27 +31,50 @@ class App extends React.Component {
       }
     )
     .then(
-      getUser => this.setState({users: getUser})
+      getUser => this.setState({user: getUser})
     )
     .catch(
       err => console.log('err', err)
     )
   }
 
+  fetchFollowers = () => {
+    console.log('followers', this.state.followers)
+    this.state.followers.forEach( follower => {
+      fetch(`https://api.github.com/users/${follower}`)
+      .then (
+        response => {
+          return response.json();
+        }
+      )
+      .then(
+        getFollowers => {
+        // console.log('getFollowers', getFollowers)
+        this.setState({eachFollower: getFollowers})
+        console.log('followers in state', this.state.eachFollower)
+        }
+      )
+      .catch(
+        err => console.log('err', err)
+      )
+    }
+    )
+  }
+  
+  
+
 
   render(){
-      this.fetchUsers();
+    // console.log('each', this.state.eachFollower)
       return (
           <div>
             <h1>Welcome to GitHub UserCard App created by {this.state.name}!</h1>
-            <UserCard data={this.state.users}/>
-            {/* {this.state.users.map( user => {
-              return <div>'user'</div>
-            }
-            )} */}
+            <UserCard user={this.state.user} />
+            <FollowersCard data={this.state.eachFollower}/>
             
           </div>
       )
+
   }
 }
 
