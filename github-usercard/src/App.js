@@ -67,7 +67,7 @@ class App extends React.Component {
   render(){
     // console.log('each', this.state.eachFollower)
       return (
-          <div>
+          <div className="App">
             <h1>Welcome to GitHub UserCard App created by {this.state.name}!</h1>
             <UserCard user={this.state.user} />
             {/*map through this.state.eachFollower and send each object inside the array as props */}
