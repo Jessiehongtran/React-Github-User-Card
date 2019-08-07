@@ -12,7 +12,7 @@ class App extends React.Component {
         name: 'Hong',
         user: [],
         followers: FollowersData,
-        eachFollower: []
+        eachFollower: [],
       }
 
 
@@ -48,9 +48,9 @@ class App extends React.Component {
         }
       )
       .then(
-        getFollowers => {
+        getFollower => {
         // console.log('getFollowers', getFollowers)
-        this.setState({eachFollower: getFollowers})
+        this.setState({eachFollower: [...this.state.eachFollower, getFollower]})
         console.log('followers in state', this.state.eachFollower)
         }
       )
@@ -70,7 +70,11 @@ class App extends React.Component {
           <div>
             <h1>Welcome to GitHub UserCard App created by {this.state.name}!</h1>
             <UserCard user={this.state.user} />
-            <FollowersCard data={this.state.eachFollower}/>
+            {/*map through this.state.eachFollower and send each object inside the array as props */}
+            {this.state.eachFollower.map(follower => 
+              {return <FollowersCard key={follower.id} data = {follower}/> }
+              )}
+            <FollowersCard  data={this.state.eachFollower}/>
             
           </div>
       )
